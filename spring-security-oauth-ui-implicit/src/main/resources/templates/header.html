@@ -10,9 +10,9 @@
 
 
 <oauth
-  site="http://localhost:8081/spring-security-oauth-server"
+  site="http://localhost:8082/spring-security-oauth-server"
   client-id="sampleClientId"
-  redirect-uri="http://localhost:8081/spring-security-oauth-ui-implicit/"
+  redirect-uri="http://localhost:8084/"
   scope="read write foo bar"
   template="oauthTemp">
 </oauth>
@@ -56,7 +56,7 @@ app.controller('mainCtrl', function($scope,$resource,$http,$rootScope) {
 	});
 
 	$scope.foo = {id:0 , name:"sample foo"};
-    $scope.foos = $resource("http://localhost:8081/spring-security-oauth-resource/foos/:fooId",{fooId:'@id'});
+    $scope.foos = $resource("http://localhost:8083/spring-security-oauth-resource/foos/:fooId",{fooId:'@id'});
     
 	$scope.getFoo = function(){
 		$scope.foo = $scope.foos.get({fooId:$scope.foo.id});
@@ -76,7 +76,7 @@ app.controller('mainCtrl', function($scope,$resource,$http,$rootScope) {
 	
 	// bar
 	$scope.bar = {id:0 , name:"sample bar"};
-    $scope.bars = $resource("http://localhost:8081/spring-security-oauth-resource/bars/:barId",{barId:'@id'});
+    $scope.bars = $resource("http://localhost:8083/spring-security-oauth-resource/bars/:barId",{barId:'@id'});
     
     $scope.getBar = function(){
         $scope.bar = $scope.bars.get({barId:$scope.bar.id});

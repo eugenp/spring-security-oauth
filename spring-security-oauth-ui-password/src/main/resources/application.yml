@@ -4,4 +4,4 @@ zuul:
   routes:
     oauth:
       path: /oauth/**
-      url: http://localhost:8081/spring-security-oauth-server/oauth
+      url: http://localhost:8082/spring-security-oauth-server/oauth
