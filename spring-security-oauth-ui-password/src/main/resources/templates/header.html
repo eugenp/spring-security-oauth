@@ -23,7 +23,7 @@ var app = angular.module('myApp', ["ngResource","ngRoute","ngCookies","angular-j
 
 app.controller('mainCtrl', function($scope,$resource,$http,$httpParamSerializer,$cookies,jwtHelper) {
     $scope.foo = {id:0 , name:"sample foo"};
-    $scope.foos = $resource("http://localhost:8081/spring-security-oauth-resource/foos/:fooId",{fooId:'@id'});
+    $scope.foos = $resource("http://localhost:8083/spring-security-oauth-resource/foos/:fooId",{fooId:'@id'});
     
     $scope.organiztion = "";
     
