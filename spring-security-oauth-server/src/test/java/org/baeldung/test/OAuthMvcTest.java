@@ -80,7 +80,7 @@ public class OAuthMvcTest {
     }
 
     @Test
-    public void givenInvalidRole_whenGetSecureRequest_thenUnauthorized() throws Exception {
+    public void givenInvalidRole_whenGetSecureRequest_thenForbidden() throws Exception {
         final String accessToken = obtainAccessToken("john", "123");
         mockMvc.perform(get("/employee").header("Authorization", "Bearer " + accessToken).param("email", EMAIL)).andExpect(status().isForbidden());
     }
@@ -103,7 +103,7 @@ public class OAuthMvcTest {
         mockMvc.perform(get("/employee")
                 .param("email", EMAIL)
                 .header("Authorization", "Bearer " + accessToken)
-                .accept("application/json;charset=UTF-8"))
+                .accept(CONTENT_TYPE))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(CONTENT_TYPE))
                 .andExpect(jsonPath("$.name", is(NAME)));
