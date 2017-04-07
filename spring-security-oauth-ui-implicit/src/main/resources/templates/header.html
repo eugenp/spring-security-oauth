@@ -95,8 +95,8 @@ app.controller('mainCtrl', function($scope,$resource,$http,$rootScope) {
         });
     }
 	
-    $scope.revokeToken = $resource("http://localhost:8082/spring-security-oauth-resource/tokens/revoke/:tokenId",{tokenId:'@tokenId'});
-    $scope.tokens = $resource("http://localhost:8082/spring-security-oauth-resource/tokens");
+    $scope.revokeToken = $resource("http://localhost:8081/spring-security-oauth-server/oauth/token/revoke/:tokenId",{tokenId:'@tokenId'});
+    $scope.tokens = $resource("http://localhost:8081/spring-security-oauth-server/tokens");
     
     $scope.getTokens = function(){
         $scope.tokenList = $scope.tokens.query();	

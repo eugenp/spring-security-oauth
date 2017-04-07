@@ -61,8 +61,7 @@ app.controller('mainCtrl', function($scope,$resource,$http,$httpParamSerializer,
     }
 	
     $scope.logout = function() {
-        logout();
-        removeRefreshToken();
+        logout($scope.loginData);
 	}
     
     function obtainAccessToken(params){
@@ -100,34 +99,20 @@ app.controller('mainCtrl', function($scope,$resource,$http,$httpParamSerializer,
         }); 
     }
 	
-    function logout() {
+    function logout(params) {
         var req = {
             method: 'POST',
-            url: "http://localhost:8082/spring-security-oauth-resource/tokens/revoke/"+$cookies.get("access_token")
+            url: "oauth/token/revoke/"+$cookies.get("access_token")
         }
-        $cookies.remove("access_token");
         $http(req).then(
             function(data){
+			    $cookies.remove("access_token");
+			    window.location.href="index";
             },function(){
                 console.log("error");
             }
         );
     }
-	
-	function removeRefreshToken(){
-	    var req = {
-            method: 'POST',
-            url: "http://localhost:8082/spring-security-oauth-resource/oauth/token/revokeRefreshTokenFromCookie",
-        }
-        $http(req).then(
-            function(data){
-                window.location.href="login";
-            },function(){
-                console.log("error");
-                window.location.href = "index";
-            }
-        );
-	}
     
 });
 /*]]>*/

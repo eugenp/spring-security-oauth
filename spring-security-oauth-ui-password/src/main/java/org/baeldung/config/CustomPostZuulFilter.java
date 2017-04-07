@@ -26,6 +26,8 @@ public class CustomPostZuulFilter extends ZuulFilter {
     public Object run() {
         final RequestContext ctx = RequestContext.getCurrentContext();
         logger.info("in zuul filter " + ctx.getRequest().getRequestURI());
+		
+		String requestURI = ctx.getRequest().getRequestURI();
 
         try {
             final InputStream is = ctx.getResponseDataStream();
@@ -46,6 +48,11 @@ public class CustomPostZuulFilter extends ZuulFilter {
                 logger.info("refresh token = " + refreshToken);
 
             }
+			else if (requestURI.contains("oauth/token/revoke")){
+			    Cookie cookie = new Cookie("refreshToken","");
+                cookie.setMaxAge(0);
+                ctx.getResponse().addCookie(cookie);
+			}
             ctx.setResponseBody(responseBody);
 
         } catch (final IOException e) {

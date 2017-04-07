@@ -1,4 +1,4 @@
-package org.baeldung.web.controller;
+package org.baeldung.config;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,11 +25,10 @@ public class TokenController {
     @Resource(name = "tokenStore")
     TokenStore tokenStore;
 
-    @RequestMapping(method = RequestMethod.POST, value = "/tokens/revoke/{tokenId:.*}")
+    @RequestMapping(method = RequestMethod.POST, value = "/oauth/token/revoke/{tokenId:.*}")
     @ResponseBody
-    public String revokeToken(@PathVariable String tokenId) {
+    public void revokeToken(@PathVariable String tokenId) {
         tokenServices.revokeToken(tokenId);
-        return "\"{token:"+tokenId+"}\"";
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/tokens")
@@ -53,31 +52,5 @@ public class TokenController {
         }
         return tokenId;
     }
-	
-    @RequestMapping(method = RequestMethod.POST, value = "/oauth/token/revokeRefreshTokenFromCookie")
-    @ResponseBody
-    public String revokeRefreshToken(HttpServletRequest request, HttpServletResponse response) {
-        String tokenId = extractRefreshToken(request);
-        if (tokenStore instanceof JdbcTokenStore) {
-            ((JdbcTokenStore) tokenStore).removeRefreshToken(tokenId);
-        }
-        
-		Cookie cookie = new Cookie("refreshToken","");
-        cookie.setMaxAge(0);
-        response.addCookie(cookie);
-		
-        return "\"{token:"+tokenId+"}\"";
-    }
-	
-    private String extractRefreshToken(HttpServletRequest req) {
-        final Cookie[] cookies = req.getCookies();
-        if (cookies != null) {
-            for (int i = 0; i < cookies.length; i++) {
-                if (cookies[i].getName().equalsIgnoreCase("refreshToken")) {
-                    return cookies[i].getValue();
-                }
-            }
-        }
-        return null;
-    }
+
 }
