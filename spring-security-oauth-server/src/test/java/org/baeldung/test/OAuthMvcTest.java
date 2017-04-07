@@ -84,7 +84,7 @@ public class OAuthMvcTest {
     @Test
     public void givenInvalidRole_whenGetSecureRequest_thenForbidden() throws Exception {
         final String accessToken = obtainAccessToken("user1", "pass");
-		System.out.println("token:"+accessToken);
+        System.out.println("token:" + accessToken);
         mockMvc.perform(get("/employee").header("Authorization", "Bearer " + accessToken).param("email", EMAIL)).andExpect(status().isForbidden());
     }
 

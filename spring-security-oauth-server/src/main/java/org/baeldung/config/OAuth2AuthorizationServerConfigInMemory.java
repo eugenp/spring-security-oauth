@@ -44,7 +44,7 @@ public class OAuth2AuthorizationServerConfigInMemory extends AuthorizationServer
 
     @Value("classpath:schema-MySql.sql")
     private Resource schemaScript;
-    
+
     @Override
     public void configure(final AuthorizationServerSecurityConfigurer oauthServer) throws Exception {
         oauthServer.tokenKeyAccess("permitAll()").checkTokenAccess("isAuthenticated()");

@@ -44,10 +44,10 @@ public class OAuth2AuthorizationServerConfig extends AuthorizationServerConfigur
 
     @Value("classpath:schema.sql")
     private Resource schemaScript;
-    
+
     @Value("classpath:data.sql")
     private Resource dataScript;
-    
+
     @Override
     public void configure(final AuthorizationServerSecurityConfigurer oauthServer) throws Exception {
         oauthServer.tokenKeyAccess("permitAll()").checkTokenAccess("isAuthenticated()");
@@ -82,13 +82,13 @@ public class OAuth2AuthorizationServerConfig extends AuthorizationServerConfigur
 				.tokenEnhancer(tokenEnhancerChain).authenticationManager(authenticationManager);
 		// @formatter:on
     }
-    
-//    @Autowired
-//	public void init(AuthenticationManagerBuilder auth) throws Exception {
+
+    // @Autowired
+    // public void init(AuthenticationManagerBuilder auth) throws Exception {
 //		// @formatter:off
 //		auth.jdbcAuthentication().dataSource(dataSource());
 //		// @formatter:on
-//	}
+    // }
 
     /*
     @Bean
