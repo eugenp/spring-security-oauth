@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import javax.servlet.http.HttpServletRequest;
 
 @Controller
 public class TokenController {
@@ -32,6 +33,7 @@ public class TokenController {
             String tokenId = authorization.substring("Bearer".length()+1);
             tokenServices.revokeToken(tokenId);
         }
+	}
 
     @RequestMapping(method = RequestMethod.GET, value = "/tokens")
     @ResponseBody
