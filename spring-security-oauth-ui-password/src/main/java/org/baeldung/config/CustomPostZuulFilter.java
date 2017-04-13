@@ -42,7 +42,7 @@ public class CustomPostZuulFilter extends ZuulFilter {
                 final Cookie cookie = new Cookie("refreshToken", refreshToken);
                 cookie.setHttpOnly(true);
                 // cookie.setSecure(true);
-                cookie.setPath(ctx.getRequest().getContextPath() + "/oauth/token/**");
+                cookie.setPath(ctx.getRequest().getContextPath() + "/oauth/token");
                 cookie.setMaxAge(2592000); // 30 days
                 ctx.getResponse().addCookie(cookie);
                 logger.info("refresh token = " + refreshToken);
@@ -51,6 +51,7 @@ public class CustomPostZuulFilter extends ZuulFilter {
 			else if (requestURI.contains("oauth/token/revoke")){
 			    Cookie cookie = new Cookie("refreshToken","");
                 cookie.setMaxAge(0);
+				cookie.setPath(ctx.getRequest().getContextPath() + "/oauth/token");
                 ctx.getResponse().addCookie(cookie);
 			}
             ctx.setResponseBody(responseBody);

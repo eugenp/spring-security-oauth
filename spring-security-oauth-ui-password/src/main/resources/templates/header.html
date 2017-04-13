@@ -102,12 +102,12 @@ app.controller('mainCtrl', function($scope,$resource,$http,$httpParamSerializer,
     function logout(params) {
         var req = {
             method: 'POST',
-            url: "oauth/token/revoke/"+$cookies.get("access_token")
+            url: "oauth/token/revoke"
         }
         $http(req).then(
             function(data){
 			    $cookies.remove("access_token");
-			    window.location.href="index";
+			    window.location.href="login";
             },function(){
                 console.log("error");
             }

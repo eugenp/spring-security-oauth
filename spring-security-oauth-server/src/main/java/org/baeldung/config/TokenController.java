@@ -14,7 +14,6 @@ import org.springframework.security.oauth2.provider.token.store.JdbcTokenStore;
 import java.util.Collection;
 import java.util.List;
 import java.util.ArrayList;
-import javax.servlet.http.Cookie;
 
 @Controller
 public class TokenController {
@@ -25,10 +24,14 @@ public class TokenController {
     @Resource(name = "tokenStore")
     TokenStore tokenStore;
 
-    @RequestMapping(method = RequestMethod.POST, value = "/oauth/token/revoke/{tokenId:.*}")
+    @RequestMapping(method = RequestMethod.POST, value = "/oauth/token/revoke")
     @ResponseBody
-    public void revokeToken(@PathVariable String tokenId) {
-        tokenServices.revokeToken(tokenId);
+    public void revokeToken(HttpServletRequest request) {
+        String authorization = request.getHeader("Authorization");
+        if (authorization != null && authorization.contains("Bearer")){
+            String tokenId = authorization.substring("Bearer".length()+1);
+            tokenServices.revokeToken(tokenId);
+        }
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/tokens")
