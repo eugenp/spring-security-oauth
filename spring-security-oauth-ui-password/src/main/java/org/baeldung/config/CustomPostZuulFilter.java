@@ -50,7 +50,7 @@ public class CustomPostZuulFilter extends ZuulFilter {
             } else if (requestURI.contains("oauth/token/revoke")) {
                 Cookie cookie = new Cookie("refreshToken", "");
                 cookie.setMaxAge(0);
-				cookie.setPath(ctx.getRequest().getContextPath() + "/oauth/token");
+                cookie.setPath(ctx.getRequest().getContextPath() + "/oauth/token");
                 ctx.getResponse().addCookie(cookie);
             }
             ctx.setResponseBody(responseBody);
