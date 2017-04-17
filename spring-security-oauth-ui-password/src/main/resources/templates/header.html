@@ -101,7 +101,7 @@ app.controller('mainCtrl', function($scope,$resource,$http,$httpParamSerializer,
 	
     function logout(params) {
         var req = {
-            method: 'POST',
+            method: 'DELETE',
             url: "oauth/token/revoke"
         }
         $http(req).then(

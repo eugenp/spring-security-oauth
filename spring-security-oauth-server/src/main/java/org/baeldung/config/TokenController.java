@@ -25,7 +25,7 @@ public class TokenController {
     @Resource(name = "tokenStore")
     TokenStore tokenStore;
 
-    @RequestMapping(method = RequestMethod.POST, value = "/oauth/token/revoke")
+    @RequestMapping(method = RequestMethod.DELETE, value = "/oauth/token/revoke")
     @ResponseBody
     public void revokeToken(HttpServletRequest request) {
         String authorization = request.getHeader("Authorization");
@@ -33,6 +33,12 @@ public class TokenController {
             String tokenId = authorization.substring("Bearer".length()+1);
             tokenServices.revokeToken(tokenId);
         }
+	}
+	
+    @RequestMapping(method = RequestMethod.POST, value = "/oauth/token/revokeById/{tokenId}")
+    @ResponseBody
+    public void revokeToken(HttpServletRequest request, @PathVariable String tokenId) {
+        tokenServices.revokeToken(tokenId);
 	}
 
     @RequestMapping(method = RequestMethod.GET, value = "/tokens")
