@@ -1,6 +1,7 @@
 package org.baeldung.config;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.provider.token.ConsumerTokenServices;
