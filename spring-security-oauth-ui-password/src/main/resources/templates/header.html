@@ -102,7 +102,7 @@ app.controller('mainCtrl', function($scope,$resource,$http,$httpParamSerializer,
     function logout(params) {
         var req = {
             method: 'DELETE',
-            url: "oauth/token/revoke"
+            url: "oauth/token"
         }
         $http(req).then(
             function(data){
