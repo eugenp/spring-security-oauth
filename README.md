@@ -7,6 +7,7 @@
 - [Spring Security OAuth2 – Simple Token Revocation](http://www.baeldung.com/spring-security-oauth-revoke-tokens)
 - [OAuth2.0 and Dynamic Client Registration](http://www.baeldung.com/spring-security-oauth-dynamic-client-registration)
 - [Testing an OAuth Secured API with the Spring MVC Test Support](http://www.baeldung.com/oauth-api-testing-with-spring-mvc)
+- [Logout in a OAuth Secured Application](http://www.baeldung.com/logout-spring-security-oauth)
 
 ### Build the Project
 ```
