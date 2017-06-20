@@ -90,8 +90,6 @@
 
 	<build>
 		<finalName>spring-security-oauth-server</finalName>
-		<!-- <resources> <resource> <directory>src/main/resources</directory> <filtering>true</filtering> 
-			<excludes> <exclude>*.jks</exclude> </excludes> </resource> </resources> -->
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
@@ -112,6 +110,16 @@
 					</excludes>
 				</configuration>
 			</plugin>
+			
+			<plugin>
+                                <groupId>org.apache.maven.plugins</groupId>
+                                <artifactId>maven-resources-plugin</artifactId>
+                                <configuration>
+                                        <nonFilteredFileExtensions>
+                                                <nonFilteredFileExtension>jks</nonFilteredFileExtension>
+                                        </nonFilteredFileExtensions>
+                                </configuration>
+                        </plugin>
 		</plugins>
 	</build>
 
