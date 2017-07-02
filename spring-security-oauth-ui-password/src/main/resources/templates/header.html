@@ -21,7 +21,7 @@
 /*<![CDATA[*/
 var app = angular.module('myApp', ["ngResource","ngRoute","ngCookies","angular-jwt"]);
 
-app.controller('mainCtrl', function($scope,$resource,$http,$httpParamSerializer,$cookies,jwtHelper) {
+app.controller('mainCtrl', function($scope,$resource,$http,$httpParamSerializer,$cookies,jwtHelper,$timeout) {
     $scope.foo = {id:1 , name:"sample foo"};
     $scope.foos = $resource("http://localhost:8082/spring-security-oauth-resource/foos/:fooId",{fooId:'@id'});
     
@@ -46,7 +46,7 @@ app.controller('mainCtrl', function($scope,$resource,$http,$httpParamSerializer,
             getOrganization();
             $scope.isLoggedIn = true;
         }else{
-        	//obtainAccessToken($scope.refreshData);
+        	obtainAccessToken($scope.refreshData);
             $scope.isLoggedIn = false;
         }
     }
@@ -55,7 +55,6 @@ app.controller('mainCtrl', function($scope,$resource,$http,$httpParamSerializer,
          obtainAccessToken($scope.loginData);
     }
     
-    
     $scope.refreshAccessToken = function(){
     	obtainAccessToken($scope.refreshData);
     }
@@ -63,8 +62,23 @@ app.controller('mainCtrl', function($scope,$resource,$http,$httpParamSerializer,
     $scope.logout = function() {
         logout($scope.loginData);
 	}
+	
+    if ($cookies.get("remember")=="yes"){
+        var validity = $cookies.get("validity");
+        if (validity >10) validity -= 10;
+        $timeout( function(){;$scope.refreshAccessToken();}, validity * 1000);
+    }
     
     function obtainAccessToken(params){
+        if (params.username != null){
+            if (params.remember != null){
+                $cookies.put("remember","yes");
+            }
+            else {
+                $cookies.remove("remember");
+            }
+        }
+	
         var req = {
             method: 'POST',
             url: "oauth/token",
@@ -76,6 +90,8 @@ app.controller('mainCtrl', function($scope,$resource,$http,$httpParamSerializer,
                 $http.defaults.headers.common.Authorization= 'Bearer ' + data.data.access_token;
                 var expireDate = new Date (new Date().getTime() + (1000 * data.data.expires_in));
                 $cookies.put("access_token", data.data.access_token, {'expires': expireDate});
+                $cookies.put("validity", data.data.expires_in);
+
                 window.location.href="index";
             },function(){
                 console.log("error");
@@ -107,6 +123,7 @@ app.controller('mainCtrl', function($scope,$resource,$http,$httpParamSerializer,
         $http(req).then(
             function(data){
 			    $cookies.remove("access_token");
+                $cookies.remove("remember");
 			    window.location.href="login";
             },function(){
                 console.log("error");
@@ -139,6 +156,7 @@ app.factory('rememberMeInterceptor', ['$q','$injector','$httpParamSerializer', f
                         $http.defaults.headers.common.Authorization= 'Bearer ' + data.data.access_token;
                         var expireDate = new Date (new Date().getTime() + (1000 * data.data.expires_in));
                         $cookies.put("access_token", data.data.access_token, {'expires': expireDate});
+                        $cookies.put("validity", data.data.expires_in);
                         window.location.href="index";
                     },function(){
                         console.log("error");

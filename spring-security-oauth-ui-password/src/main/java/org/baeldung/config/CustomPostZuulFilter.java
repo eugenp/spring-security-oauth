@@ -40,16 +40,13 @@ public class CustomPostZuulFilter extends ZuulFilter {
                 responseMap.remove("refresh_token");
                 responseBody = mapper.writeValueAsString(responseMap);
 
-                final Cookie cookie = new Cookie("refreshToken", refreshToken);
+                Cookie cookie = new Cookie("refreshToken", refreshToken);
                 cookie.setHttpOnly(true);
                 // cookie.setSecure(true);
                 cookie.setPath(ctx.getRequest().getContextPath() + "/oauth/token");
                 cookie.setMaxAge(2592000); // 30 days
+				ctx.getResponse().addCookie(cookie);
 
-                String rememberMe = ctx.getRequest().getParameter("remember");
-                //if (rememberMe != null) {
-                    ctx.getResponse().addCookie(cookie);
-                //}
                 logger.info("refresh token = " + refreshToken);
 
             } else if (requestURI.contains("oauth/token") && requestMethod.equals("DELETE")) {

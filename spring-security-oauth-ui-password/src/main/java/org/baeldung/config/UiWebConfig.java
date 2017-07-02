@@ -29,6 +29,7 @@ public class UiWebConfig extends WebMvcConfigurerAdapter {
         registry.addViewController("/").setViewName("forward:/index");
         registry.addViewController("/index");
         registry.addViewController("/login");
+        registry.addViewController("/login_remember");
     }
 
     @Override
