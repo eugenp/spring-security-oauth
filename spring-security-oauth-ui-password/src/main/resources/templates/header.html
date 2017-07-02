@@ -46,7 +46,7 @@ app.controller('mainCtrl', function($scope,$resource,$http,$httpParamSerializer,
             getOrganization();
             $scope.isLoggedIn = true;
         }else{
-        	obtainAccessToken($scope.refreshData);
+        	//obtainAccessToken($scope.refreshData);
             $scope.isLoggedIn = false;
         }
     }
