@@ -23,7 +23,7 @@
     "core-js": "^2.4.1",
     "rxjs": "^5.1.0",
     "zone.js": "^0.8.4",
-    "angular-oauth2-oidc":">=1.0.20"
+    "angular-oauth2-oidc":">=1.0.20",
     "ng2-cookies": ">=1.0.12"
   },
   "devDependencies": {
