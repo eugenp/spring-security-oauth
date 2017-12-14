@@ -20,6 +20,16 @@ public class TokenRevocationLiveTest {
         assertNotNull(accessToken);
     }
 
+    @Test
+    public void givenDBUser_whenRevokeTokenAndRefreshToken_thenAuthorized() {
+        final String accessToken = obtainAccessToken("fooClientIdPassword", "john", "123");
+        assertNotNull(accessToken);
+        final String accessTokenNew = obtainRefreshToken("fooClientIdPassword");
+        assertNotNull(accessToken);
+        assertNotSame("Both token different",
+        		accessToken,
+        		accessTokenNew);
+    }
     //
 
     private String obtainAccessToken(String clientId, String username, String password) {
