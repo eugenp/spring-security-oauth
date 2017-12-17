@@ -20,16 +20,42 @@ public class TokenRevocationLiveTest {
         assertNotNull(accessToken);
     }
 
-    @Test
+   @Test
     public void givenDBUser_whenRevokeTokenAndRefreshToken_thenAuthorized() {
-        final String accessToken = obtainAccessToken("fooClientIdPassword", "john", "123");
+        String clientId = "fooClientIdPassword";
+		String username = "john";
+		String password = "123";
+		final Response response = getAccessToken(clientId, username, password);
+        final String accessToken=response.jsonPath().getString("access_token");
         assertNotNull(accessToken);
-        final String accessTokenNew = obtainRefreshToken("fooClientIdPassword");
+        final String refreshToken=response.jsonPath().getString("refresh_token");
+        final String accessTokenNew = refreshAccessToken(refreshToken,clientId);
         assertNotNull(accessToken);
         assertNotSame("Both token different",
         		accessToken,
         		accessTokenNew);
     }
+    
+    private String refreshAccessToken(String refreshToken,String clientId) {
+
+    	final Map<String, String> params = new HashMap<String, String>();
+    	params.put("grant_type", "refresh_token");
+    	params.put("client_id", clientId);
+    	params.put("refresh_token", refreshToken);
+		final Response response = RestAssured.given().auth().preemptive().basic(clientId, "secret").and().with().params(params).when().post("http://localhost:8081/spring-security-oauth-server/oauth/token");
+		String newAccessToken = response.jsonPath().getString("access_token");
+		return newAccessToken;
+
+	}
+    
+    private Response getAccessToken(String clientId, String username, String password) {
+    	final Map<String, String> params = new HashMap<String, String>();
+        params.put("grant_type", "password");
+        params.put("client_id", clientId);
+        params.put("username", username);
+        params.put("password", password);
+        return RestAssured.given().auth().preemptive().basic(clientId, "secret").and().with().params(params).when().post("http://localhost:8081/spring-security-oauth-server/oauth/token");
+	}
     //
 
     private String obtainAccessToken(String clientId, String username, String password) {
