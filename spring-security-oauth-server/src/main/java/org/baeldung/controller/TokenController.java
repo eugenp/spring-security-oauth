@@ -1,11 +1,4 @@
-package org.baeldung.config;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
+package org.baeldung.controller;
 
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.provider.token.ConsumerTokenServices;
@@ -17,14 +10,22 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
 @Controller
 public class TokenController {
 
     @Resource(name = "tokenServices")
-    ConsumerTokenServices tokenServices;
+    private ConsumerTokenServices tokenServices;
 
     @Resource(name = "tokenStore")
-    TokenStore tokenStore;
+    private TokenStore tokenStore;
 
     @RequestMapping(method = RequestMethod.POST, value = "/oauth/token/revokeById/{tokenId}")
     @ResponseBody
@@ -35,14 +36,12 @@ public class TokenController {
     @RequestMapping(method = RequestMethod.GET, value = "/tokens")
     @ResponseBody
     public List<String> getTokens() {
-        List<String> tokenValues = new ArrayList<String>();
         Collection<OAuth2AccessToken> tokens = tokenStore.findTokensByClientId("sampleClientId");
-        if (tokens != null) {
-            for (OAuth2AccessToken token : tokens) {
-                tokenValues.add(token.getValue());
-            }
-        }
-        return tokenValues;
+        return Optional.ofNullable(tokens)
+                .orElse(Collections.emptyList())
+                .stream()
+                .map(OAuth2AccessToken::getValue)
+                .collect(Collectors.toList());
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/tokens/revokeRefreshToken/{tokenId:.*}")
