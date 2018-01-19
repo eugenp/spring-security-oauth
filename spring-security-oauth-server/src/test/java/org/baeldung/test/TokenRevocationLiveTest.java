@@ -24,8 +24,18 @@ public class TokenRevocationLiveTest {
         assertThat(resourceServerResponse.getStatusCode(), equalTo(200));
     }
 
-    //
-
+    @Test
+    public void whenObtainingAccessToken_thenRefreshToken() {
+        Response accessTokenServerResponse = obtainAccessToken("fooClientIdPassword", "john", "123");
+        String accessToken = accessTokenServerResponse.jsonPath().getString("access_token");
+        String refreshToken = accessTokenServerResponse.jsonPath().getString("refresh_token");
+        assertNotNull(accessToken);
+        assertNotNull(refreshToken);
+        
+        accessToken = obtainRefreshToken("fooClientIdPassword", refreshToken);
+        assertNotNull(accessToken);
+        
+    }
     private Response obtainAccessToken(String clientId, String username, String password) {
         final Map<String, String> params = new HashMap<String, String>();
         params.put("grant_type", "password");
