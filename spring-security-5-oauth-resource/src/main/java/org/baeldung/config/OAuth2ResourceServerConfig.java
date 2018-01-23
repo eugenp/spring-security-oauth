@@ -1,17 +1,12 @@
 package org.baeldung.config;
 
-import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.nio.charset.Charset;
 import java.util.Arrays;
 
-import org.apache.commons.io.IOUtils;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.Resource;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
@@ -58,14 +53,14 @@ public class OAuth2ResourceServerConfig extends ResourceServerConfigurerAdapter 
         converter.setSigningKey("123");
         converter.setJwtClaimsSetVerifier(jwtClaimsSetVerifier());
 
-        final Resource resource = new ClassPathResource("public.txt");
-        String publicKey = null;
-        try {
-            publicKey = IOUtils.toString(resource.getInputStream(), Charset.defaultCharset());
-        } catch (final IOException e) {
-            throw new RuntimeException(e);
-        }
-        converter.setVerifierKey(publicKey);
+        // final Resource resource = new ClassPathResource("public.txt");
+        // String publicKey = null;
+        // try {
+        // publicKey = IOUtils.toString(resource.getInputStream());
+        // } catch (final IOException e) {
+        // throw new RuntimeException(e);
+        // }
+        // converter.setVerifierKey(publicKey);
         return converter;
     }
 
