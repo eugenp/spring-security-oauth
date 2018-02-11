@@ -24,6 +24,18 @@ public class TokenRevocationLiveTest {
         assertThat(resourceServerResponse.getStatusCode(), equalTo(200));
     }
 
+    @Test
+    public void whenObtainingRefreshToken_useItToGetAccessToken() {
+        final Response authServerResponse = obtainAccessToken("fooClientIdPassword", "tom", "111");
+         String accessToken = authServerResponse.jsonPath().getString("access_token");
+        assertNotNull(accessToken);
+        //  first, get an Access Token (along with the Refresh Token of course)
+         String refreshToken = authServerResponse.jsonPath().getString("refresh_token");
+        assertNotNull(refreshToken);
+        // then, use the Refresh Token to obtain a new Access Token
+        accessToken = obtainRefreshToken("fooClientIdPassword", refreshToken);
+        assertNotNull(accessToken);
+    }
     //
 
     private Response obtainAccessToken(String clientId, String username, String password) {
