@@ -1,9 +1,5 @@
 package org.baeldung.config;
 
-import java.util.Arrays;
-
-import javax.sql.DataSource;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -25,6 +21,9 @@ import org.springframework.security.oauth2.provider.token.TokenEnhancer;
 import org.springframework.security.oauth2.provider.token.TokenEnhancerChain;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JdbcTokenStore;
+
+import javax.sql.DataSource;
+import java.util.Collections;
 
 //@Configuration
 //@PropertySource({ "classpath:persistence.properties" })
@@ -69,7 +68,7 @@ public class OAuth2AuthorizationServerConfigInMemory extends AuthorizationServer
     public void configure(final AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
         // @formatter:off
 		final TokenEnhancerChain tokenEnhancerChain = new TokenEnhancerChain();
-		tokenEnhancerChain.setTokenEnhancers(Arrays.asList(tokenEnhancer()));
+		tokenEnhancerChain.setTokenEnhancers(Collections.singletonList(tokenEnhancer()));
 		endpoints.tokenStore(tokenStore())
 				// .accessTokenConverter(accessTokenConverter())
 				.tokenEnhancer(tokenEnhancerChain).authenticationManager(authenticationManager);
