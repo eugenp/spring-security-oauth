@@ -23,6 +23,22 @@ public class TokenRevocationLiveTest {
         final Response resourceServerResponse = RestAssured.given().header("Authorization", "Bearer " + accessToken).get("http://localhost:8082/spring-security-oauth-resource/foos/100");
         assertThat(resourceServerResponse.getStatusCode(), equalTo(200));
     }
+    
+    @Test
+    public void refreshAccessTokenSuccess() {
+    	final Response authServerResponse = obtainAccessToken("fooClientIdPassword", "john", "123");
+    	final String accessToken = authServerResponse.jsonPath().getString("access_token");
+    	final String refreshToken = authServerResponse.jsonPath().getString("refresh_token");
+    	assertNotNull(accessToken);
+    	assertNotNull(refreshToken);
+    	Response resourceServerResponse = RestAssured.given().header("Authorization", "Bearer " + accessToken).get("http://localhost:8082/spring-security-oauth-resource/foos/100");
+        assertThat(resourceServerResponse.getStatusCode(), equalTo(200));
+    	
+    	String newAccessToken = obtainRefreshToken("fooClientIdPassword", refreshToken);
+    	assertNotNull(newAccessToken);
+    	resourceServerResponse = RestAssured.given().header("Authorization", "Bearer " + newAccessToken).get("http://localhost:8082/spring-security-oauth-resource/foos/100");
+        assertThat(resourceServerResponse.getStatusCode(), equalTo(200));
+    }
 
     //
 
