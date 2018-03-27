@@ -1,30 +1,50 @@
 package org.baeldung.test;
 
 import static org.hamcrest.CoreMatchers.equalTo;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
 
 import java.util.HashMap;
 import java.util.Map;
 
+import org.baeldung.config.AuthorizationServerApplication;
 import org.junit.Test;
 
 import com.jayway.restassured.RestAssured;
 import com.jayway.restassured.response.Response;
+import org.junit.runner.RunWith;
+import org.springframework.boot.context.embedded.LocalServerPort;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
 
+@RunWith(SpringRunner.class)
+@SpringBootTest(classes = AuthorizationServerApplication.class,webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class TokenRevocationLiveTest {
+
+    @LocalServerPort
+    private int port;
 
     @Test
     public void whenObtainingAccessToken_thenCorrect() {
         final Response authServerResponse = obtainAccessToken("fooClientIdPassword", "john", "123");
         final String accessToken = authServerResponse.jsonPath().getString("access_token");
         assertNotNull(accessToken);
-
         final Response resourceServerResponse = RestAssured.given().header("Authorization", "Bearer " + accessToken).get("http://localhost:8082/spring-security-oauth-resource/foos/100");
         assertThat(resourceServerResponse.getStatusCode(), equalTo(200));
     }
 
-    //
+    @Test
+    public void whenObtainingAcessToken_RefreshUsingToken_thenCorrect() {
+        final Response authServerResponse = obtainAccessToken("fooClientIdPassword", "john", "123");
+        final String accessToken = authServerResponse.jsonPath().getString("access_token");
+        final String refreshToken = authServerResponse.jsonPath().getString("refresh_token");
+        assertNotNull(refreshToken);
+        assertNotNull(accessToken);
+
+        String accessTokenNew = obtainAccessTokenFromRefreshToken("fooClientIdPassword",refreshToken);
+        assertNotEquals(accessToken,accessTokenNew);
+    }
 
     private Response obtainAccessToken(String clientId, String username, String password) {
         final Map<String, String> params = new HashMap<String, String>();
@@ -32,17 +52,19 @@ public class TokenRevocationLiveTest {
         params.put("client_id", clientId);
         params.put("username", username);
         params.put("password", password);
-        return RestAssured.given().auth().preemptive().basic(clientId, "secret").and().with().params(params).when().post("http://localhost:8081/spring-security-oauth-server/oauth/token");
-        // response.jsonPath().getString("refresh_token");
-        // response.jsonPath().getString("access_token")
+        return RestAssured.given().auth().preemptive().basic(clientId, "secret").and().with().params(params).when().post(getTokenUrl());
     }
 
-    private String obtainRefreshToken(String clientId, final String refreshToken) {
+    private String getTokenUrl() {
+        return "http://localhost:"+String.valueOf(port)+"/spring-security-oauth-server/oauth/token";
+    }
+
+    private String obtainAccessTokenFromRefreshToken(String clientId, final String refreshToken) {
         final Map<String, String> params = new HashMap<String, String>();
         params.put("grant_type", "refresh_token");
         params.put("client_id", clientId);
         params.put("refresh_token", refreshToken);
-        final Response response = RestAssured.given().auth().preemptive().basic(clientId, "secret").and().with().params(params).when().post("http://localhost:8081/spring-security-oauth-server/oauth/token");
+        final Response response = RestAssured.given().auth().preemptive().basic(clientId, "secret").and().with().params(params).when().post(getTokenUrl());
         return response.jsonPath().getString("access_token");
     }
 
@@ -76,7 +98,7 @@ public class TokenRevocationLiveTest {
     // final String accessToken2 = obtainAccessToken("fooClientIdPassword", "tom", "111");
     // authorizeClient("fooClientIdPassword");
     //
-    // final String accessToken3 = obtainRefreshToken("fooClientIdPassword");
+    // final String accessToken3 = obtainAccessTokenFromRefreshToken("fooClientIdPassword");
     // authorizeClient("fooClientIdPassword");
     // final Response refreshTokenResponse = RestAssured.given().header("Authorization", "Bearer " + accessToken3).get("http://localhost:8082/spring-security-oauth-resource/tokens");
     // assertEquals(200, refreshTokenResponse.getStatusCode());
@@ -84,7 +106,7 @@ public class TokenRevocationLiveTest {
     // final Response revokeRefreshTokenResponse = RestAssured.given().header("Authorization", "Bearer " + accessToken1).post("http://localhost:8082/spring-security-oauth-resource/tokens/revokeRefreshToken/"+refreshToken);
     // assertEquals(200, revokeRefreshTokenResponse.getStatusCode());
     //
-    // final String accessToken4 = obtainRefreshToken("fooClientIdPassword");
+    // final String accessToken4 = obtainAccessTokenFromRefreshToken("fooClientIdPassword");
     // authorizeClient("fooClientIdPassword");
     // final Response refreshTokenResponse2 = RestAssured.given().header("Authorization", "Bearer " + accessToken4).get("http://localhost:8082/spring-security-oauth-resource/tokens");
     // assertEquals(401, refreshTokenResponse2.getStatusCode());
