@@ -19,7 +19,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = AuthorizationServerApplication.class,webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@SpringBootTest(classes ={ AuthorizationServerApplication.class},webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class TokenRevocationLiveTest {
 
     @LocalServerPort
@@ -30,7 +30,7 @@ public class TokenRevocationLiveTest {
         final Response authServerResponse = obtainAccessToken("fooClientIdPassword", "john", "123");
         final String accessToken = authServerResponse.jsonPath().getString("access_token");
         assertNotNull(accessToken);
-        final Response resourceServerResponse = RestAssured.given().header("Authorization", "Bearer " + accessToken).get("http://localhost:8082/spring-security-oauth-resource/foos/100");
+        final Response resourceServerResponse = RestAssured.given().header("Authorization", "Bearer " + accessToken).get("http://localhost:"+String.valueOf(port)+"/spring-security-oauth-server/employee?email=jim@yahoo.com))");
         assertThat(resourceServerResponse.getStatusCode(), equalTo(200));
     }
 
