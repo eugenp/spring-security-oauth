@@ -63,7 +63,7 @@ public class SwaggerConfig {
     private SecurityContext securityContext() {
         return SecurityContext.builder()
             .securityReferences(Arrays.asList(new SecurityReference("spring_oauth", scopes())))
-            .forPaths(PathSelectors.regex("/foos.*"))
+            .forPaths(PathSelectors.regex("/.*"))
             .build();
     }
 
