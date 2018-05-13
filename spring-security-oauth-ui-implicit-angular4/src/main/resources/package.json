@@ -23,7 +23,8 @@
     "angular-oauth2-oidc": ">=1.0.20",
     "core-js": "^2.4.1",
     "ng2-cookies": ">=1.0.12",
-    "rxjs": "^6.0.0",
+    "rxjs": "^6.1.0",
+    "rxjs-compat": "^6.0.0-tactical-rc.1",
     "zone.js": "^0.8.4"
   },
   "devDependencies": {
