@@ -80,4 +80,4 @@ npm start
 - [OAuth2 Remember Me with Refresh Token](http://www.baeldung.com/spring-security-oauth2-remember-me)
 - [Angular 4 Upgrade for Spring Security OAuth](http://www.baeldung.com/angular-4-upgrade-for-spring-security-oauth/)
 - [New in Spring Security OAuth2 – Verify Claims](http://www.baeldung.com/spring-security-oauth-2-verify-claims)
-
+- [Front-End App with Spring Security OAuth – Authorization Code Flow](http://www.baeldung.com/spring-security-oauth-authorization-code-flow)
