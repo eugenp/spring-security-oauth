@@ -29,13 +29,14 @@
     "zone.js": "^0.8.4"
   },
   "devDependencies": {
-    "@angular/cli": "6.0.1",
+    "@angular/cli": "6.1.4",
     "@angular/compiler-cli": "^6.0.1",
     "@types/node": "~6.0.60",
     "codelyzer": "~4.3.0",
     "ts-node": "~6.0.3",
     "tslint": "~5.10.0",
     "typescript": " 2.7.2",
-    "@angular-devkit/build-angular": "^0.7.4"
+    "@angular-devkit/build-angular": "^0.7.4",
+    "extglob": "3.0.0"
   }
 }
