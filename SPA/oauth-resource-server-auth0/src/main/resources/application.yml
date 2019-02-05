@@ -1,0 +1,17 @@
+spring:
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          jwk-set-uri: https://bael-jsonly-pkce.auth0.com/.well-known/jwks.json
+    user:
+      password: pass
+  datasource:
+    url: jdbc:h2:mem:bael-colors
+    username: sa
+    password: 
+    driver-class-name: org.h2.Driver
+#  jpa:
+#    database-platform: org.hibernate.dialect.H2Dialect
+server:
+  port: 8081

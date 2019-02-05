@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <title>Step by Step - Baeldung's JS-only SPA Oauth Client</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width">
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="/pkce-stepbystep/css/bael-oauth-pkce-styles.css">
+
+    <!-- Import the React, React-Dom and Babel libraries -->
+    <!-- Note: Here we are using React's unminified-development version -->
+    <script src="https://fb.me/react-0.14.3.js"></script>
+    <script src="https://fb.me/react-dom-0.14.3.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <!-- Axios to make requests easily -->
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  </head>
+
+  <body>
+    <div id="root"></div>
+    <script type="text/javascript" src="/pkce-stepbystep/js/configs.js"></script>
+    <script type="text/javascript" src="/common/js/common_functions.js"></script>
+    <script type="text/javascript" src="/common/js/code_verifier_functions.js"></script>
+    <script type="text/javascript" src="/common/js/code_challenge_functions.js"></script>
+    <script type="text/babel" src="/common/js/components/Spinner.js"></script>
+    <script type="text/babel" src="/pkce-stepbystep/js/components/steps/Step0.js"></script>
+    <script type="text/babel" src="/pkce-stepbystep/js/components/steps/Step1.js"></script>
+    <script type="text/babel" src="/pkce-stepbystep/js/components/steps/Step2.js"></script>
+    <script type="text/babel" src="/pkce-stepbystep/js/components/steps/Step3.js"></script>
+    <script type="text/babel" src="/pkce-stepbystep/js/components/App.js"></script>
+
+    <script type="text/babel">
+      // main rendering:
+      const rootElement = document.getElementById('root');
+      ReactDOM.render(<App/>, rootElement);
+    </script>
+
+  </body>
+
+</html>

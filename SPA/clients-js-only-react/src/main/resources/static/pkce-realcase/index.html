@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <title>Real Case - Baeldung's JS-only SPA Oauth Client</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width">
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="/pkce-realcase/css/bael-oauth-pkce-styles.css">
+
+    <!-- Import the React, React-Dom and Babel libraries -->
+    <!-- Note: Here we are using React's unminified-development version -->
+    <script src="https://fb.me/react-0.14.3.js"></script>
+    <script src="https://fb.me/react-dom-0.14.3.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <!-- Axios to make requests easily -->
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+  </head>
+
+  <body>
+    <div id="root"></div>
+    <script type="text/javascript" src="/pkce-realcase/js/configs.js"></script>
+    <script type="text/javascript" src="/common/js/common_functions.js"></script>
+    <script type="text/javascript" src="/common/js/code_verifier_functions.js"></script>
+    <script type="text/javascript" src="/common/js/code_challenge_functions.js"></script>
+    <script type="text/babel" src="/common/js/components/Spinner.js"></script>
+    <script type="text/babel" src="/pkce-realcase/js/components/navbar/Navbar.js"></script>
+    <script type="text/babel" src="/pkce-realcase/js/components/pages/Listing.js"></script>
+    <script type="text/babel" src="/pkce-realcase/js/components/pages/ListingItem.js"></script>
+    <script type="text/babel" src="/pkce-realcase/js/components/pages/Profile.js"></script>
+    <script type="text/babel" src="/pkce-realcase/js/components/App.js"></script>
+
+    <script type="text/babel">
+      // main rendering:
+      const rootElement = document.getElementById('root');
+      ReactDOM.render(<App/>, rootElement);
+    </script>
+
+  </body>
+
+</html>

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <!-- Styles -->
+    <link rel="stylesheet" href="/pkce-realcase/css/bael-oauth-pkce-styles.css">
+
+    <!-- Import the React, React-Dom and Babel libraries -->
+    <!-- Note: Here we are using React's unminified-development version -->
+    <script src="https://fb.me/react-0.14.3.js"></script>
+    <script src="https://fb.me/react-dom-0.14.3.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <!-- Axios to make requests easily -->
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  </head>
+
+  <body>
+    <div id="root"></div>
+    <script type="text/javascript" src="/pkce-realcase/js/configs.js"></script>
+    <script type="text/javascript" src="/common/js/common_functions.js"></script>
+    <script type="text/babel" src="/pkce-realcase/js/components/popup/PopupWindow.js"></script>
+    <script type="text/babel">
+      const urlParams = new URLSearchParams(window.location.search);
+      const popupProps = {
+        authCode: urlParams.get('code'),
+        state: urlParams.get('state'),
+        error: urlParams.get('error'),
+        errorDescription: urlParams.get('error_description')
+      }
+
+      // popup rendering:
+      const rootElement = document.getElementById('root');
+      ReactDOM.render(<PopupWindow {...popupProps} />, rootElement);
+    </script>
+  </body>
+
+</html>
