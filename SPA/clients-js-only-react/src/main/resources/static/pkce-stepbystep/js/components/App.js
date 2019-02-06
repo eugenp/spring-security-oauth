@@ -51,6 +51,8 @@ class App extends React.Component {
       + '&code_challenge_method=S256'
       + '&code_challenge=' + this.state.step1.codeChallenge
       + (audience ? ('&audience=' + audience) : '');
+    console.log("Opening popup with the following URL [" + authorizationUrl + "]");
+    console.log("=========================");
     window.addEventListener('message', this.onPopupResponseFn, false);
     var popup = window.open(authorizationUrl, 'external_login_page', 'width=800,height=600,left=200,top=100');
     this.setState({

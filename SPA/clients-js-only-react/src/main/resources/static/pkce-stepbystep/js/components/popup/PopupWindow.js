@@ -46,9 +46,17 @@ class PopupWindow extends React.Component {
     var headers = {
       'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8'
     }
+    console.log("Making POST request to URL [" + tokenRequestUrl + "] with Headers:");
+    console.log(headers);
+    console.log("and body:");
+    console.log(tokenRequestBody);
+    console.log("=========================");
     var self = this;
     axios.post(tokenRequestUrl, new URLSearchParams(tokenRequestBody), { headers })
       .then(function (response) {
+        console.log("Retrieved response with data:")
+        console.log(response.data);
+        console.log("=========================");
         const accessToken = response.data.access_token;
         const tokenStatus = {
           type: 'accessToken',
