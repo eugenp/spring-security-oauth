@@ -22,6 +22,9 @@
     <script type="text/babel" src="/pkce-stepbystep/js/components/popup/PopupWindow.js"></script>
     <script type="text/babel">
       const urlParams = new URLSearchParams(window.location.search);
+      console.log("Auth Service redirected with params:");
+      console.log(window.location.search);
+      console.log("=========================");
       const popupProps = {
         authCode: urlParams.get('code'),
         state: urlParams.get('state'),

@@ -4,7 +4,7 @@ const CONFIGS = {
     clientId: "R7L3XpkJrwcGEkuxrUdSpGAA9NgX9ouQ",
     redirectUri: "http://localhost:8080/pkce-stepbystep/popup_code_handler.html",
     tokenUrl: "bael-jsonly-pkce.auth0.com/oauth/token",
-    scopes: 'openid profile email read:users',
+    scopes: 'openid profile email',
     audience: "https://bael-jsonly-pkce.auth0.com/api/v2/",
     profileUrl: "bael-jsonly-pkce.auth0.com/userinfo",
     profileFields: {
