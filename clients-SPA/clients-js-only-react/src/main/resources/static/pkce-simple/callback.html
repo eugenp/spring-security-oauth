@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  </head>
+
+  <body>
+    <script type="text/javascript">
+      const urlParams = new URLSearchParams(window.location.search);
+      const authCode = urlParams.get('code');
+      const state = urlParams.get('state');
+
+      const stateMessage = {
+        type: 'state',
+        state
+      }
+      window.opener.postMessage(stateMessage, "*");
+
+      const onMainWindowMessageFn = (e) => {
+        if (!e.data.codeVerifier) { return };
+        const tokenRequestUrl = 'https://bael-jsonly-pkce.auth0.com/oauth/token';
+        const tokenRequestBody = {
+          grant_type: 'authorization_code',
+          redirect_uri: 'http://localhost:8080/pkce-simple/callback.html',
+          code: authCode,
+          code_verifier: e.data.codeVerifier,
+          client_id: 'R7L3XpkJrwcGEkuxrUdSpGAA9NgX9ouQ',
+          audience: 'https://bael-jsonly-pkce.auth0.com/api/v2/'
+        }
+        var headers = {
+          'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8'
+        }
+        axios.post(tokenRequestUrl, new URLSearchParams(tokenRequestBody), { headers })
+          .then((response) => {
+            const accessToken = response.data.access_token;
+            const tokenMessage = {
+              type: 'accessToken',
+              accessToken
+            }
+            window.opener.postMessage(tokenMessage, "*");
+            window.close();
+          }
+        );
+      }
+      window.addEventListener('message', onMainWindowMessageFn, false);
+    </script>
+  </body>
+
+</html>

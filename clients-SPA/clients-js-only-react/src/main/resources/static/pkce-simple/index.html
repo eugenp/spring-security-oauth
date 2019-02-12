@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="https://fb.me/react-0.14.3.js"></script>
+    <script src="https://fb.me/react-dom-0.14.3.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  </head>
+
+  <body>
+      <div id="root"></div>
+    
+      <!-- Other components and Js files goes here -->
+      <script type="text/babel" src="/pkce-simple/js/components/App.js"></script>
+    
+      <script type="text/babel">
+        const rootElement = document.getElementById('root');
+        ReactDOM.render(<App/>, rootElement);
+      </script>
+    </body>
+
+</html>

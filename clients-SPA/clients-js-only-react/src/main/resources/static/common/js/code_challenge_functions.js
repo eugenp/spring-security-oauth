@@ -2,6 +2,12 @@ function generate_code_challenge(verifier) {
   return base64_urlencode(sha256bin(verifier));
 }
 
+generateCodeChallenge = async (codeVerifier) =>  {
+  const strBuffer = new TextEncoder('utf-8').encode(codeVerifier);
+  const hashBuffer = await window.crypto.subtle.digest('SHA-256', strBuffer);
+  return Array.from(new Uint8Array(hashBuffer));
+}
+
 function sha256bin(ascii) {
   return hex2bin(sha256(ascii));
 }

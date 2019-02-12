@@ -21,7 +21,7 @@ class App extends React.Component {
       + '?client_id=' + clientId
       + "&response_type=code"
       + '&scope=' + scopes
-      + '&redirect_uri=' + encodeURI(redirectUri)
+      + '&redirect_uri=' + redirectUri
       + '&state=' + state
       + '&code_challenge_method=S256'
       + '&code_challenge=' + codeChallenge

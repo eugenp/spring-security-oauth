@@ -2,7 +2,6 @@
 class PopupWindow extends React.Component {
 
   state = {
-    codeChallenge: '',
     codeVerifier: '',
     accessToken: '',
     requestedAccessToken: false,
