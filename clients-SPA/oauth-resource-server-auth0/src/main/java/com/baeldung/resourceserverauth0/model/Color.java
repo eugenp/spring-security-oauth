@@ -6,19 +6,20 @@ import javax.persistence.Id;
 
 @Entity
 public class Color {
-    
+
     @Id
     @GeneratedValue
     private Long id;
-    
+
     private String value;
-    
-    protected Color() {}
-    
+
+    protected Color() {
+    }
+
     public Color(String value) {
         this.value = value;
     }
-    
+
     public String getValue() {
         return this.value;
     }

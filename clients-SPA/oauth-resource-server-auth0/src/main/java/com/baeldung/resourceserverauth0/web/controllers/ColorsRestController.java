@@ -1,7 +1,6 @@
 package com.baeldung.resourceserverauth0.web.controllers;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,22 +19,23 @@ import org.springframework.web.bind.annotation.RestController;
 import com.baeldung.resourceserverauth0.dao.ColorRepository;
 import com.baeldung.resourceserverauth0.model.Color;
 
-@CrossOrigin(origins= "http://localhost:8080")
+@CrossOrigin(origins = "http://localhost:8080")
 @RestController
 @RequestMapping("/colors")
 public class ColorsRestController {
-    
+
     @Autowired
     ColorRepository repository;
-    
+
     @GetMapping("/list")
     public List<Color> retrieveNonSecuredResource() {
         List<Color> colors = new ArrayList<>();
-        repository.findAll().forEach(colors::add);
+        repository.findAll()
+            .forEach(colors::add);
         return colors;
     }
 
-    @CrossOrigin(methods = RequestMethod.POST, allowedHeaders="Authorization")
+    @CrossOrigin(methods = RequestMethod.POST, allowedHeaders = "Authorization")
     @PostMapping("/create")
     @ResponseStatus(code = HttpStatus.CREATED)
     public void retrieveSecuredResource(@RequestBody String color) {

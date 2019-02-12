@@ -11,12 +11,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-            .antMatchers(HttpMethod.OPTIONS,"/colors/**").permitAll()
+            .antMatchers(HttpMethod.OPTIONS, "/colors/**")
+            .permitAll()
             .antMatchers("/colors/create")
             .hasAuthority("SCOPE_profile")
             .antMatchers("/colors/delete/*")
             .hasAuthority("SCOPE_nonExistent")
-            .antMatchers("/colors/list").permitAll()
+            .antMatchers("/colors/list")
+            .permitAll()
             .and()
             .oauth2ResourceServer()
             .jwt();
