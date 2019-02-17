@@ -41,17 +41,21 @@ class App extends React.Component {
   }
 
   executeStep2RequestCode = () => {
-    const { authUrl, clientId, redirectUri, scopes, audience } = CONFIGS[this.state.step1.provider];
-    const authorizationUrl = 'https://' + authUrl
-      + '?client_id=' + clientId
+    const { AUTH_URL,
+      CLIENT_ID,
+      CONFIGURED_REDIRECT_URIS: { STEP_BY_STEP: redirectUri },
+      SCOPES,
+      AUDIENCE } = PROVIDER_CONFIGS[this.state.step1.provider];
+    const authorizationUrl = AUTH_URL
+      + '?client_id=' + CLIENT_ID
       + "&response_type=code"
-      + '&scope=' + scopes
+      + '&scope=' + SCOPES
       + '&redirect_uri=' + redirectUri
       + '&state=' + this.state.step1.state
       + '&code_challenge_method=S256'
       + '&code_challenge=' + this.state.step1.codeChallenge
-      + (audience ? ('&audience=' + audience) : '');
-    console.log("Opening popup sending user to authorization URL with QueryParams:", authUrl, authorizationUrl.split("&").slice(1));
+      + (AUDIENCE ? ('&audience=' + AUDIENCE) : '');
+    console.log("Opening popup sending user to authorization URL with QueryParams:", AUTH_URL, authorizationUrl.split("&").slice(1));
     console.log("=========================");
     window.addEventListener('message', this.onPopupResponseFn, false);
     var popup = window.open(authorizationUrl, 'external_login_page', 'width=800,height=600,left=200,top=100');
@@ -75,15 +79,14 @@ class App extends React.Component {
   }
 
   executeStep3RequestResource = () => {
-    const { profileUrl, profileFields } = CONFIGS[this.state.step1.provider];
-    const profileInfoUrl = 'https://' + profileUrl;
+    const { PROFILE_URL, PROFILE_FIELDS } = PROVIDER_CONFIGS[this.state.step1.provider];
     const headers = { headers: { Authorization: 'Bearer ' + this.state.step2.accessToken } };
     var self = this;
-    axios.get(profileInfoUrl, headers).then(function (response) {
-      const name = self.extractProfileField(response.data, profileFields.name);
-      const lastName = self.extractProfileField(response.data, profileFields.lastName);
-      const email = self.extractProfileField(response.data, profileFields.email);
-      const picture = self.extractProfileField(response.data, profileFields.picture);
+    axios.get(PROFILE_URL, headers).then(function (response) {
+      const name = self.extractProfileField(response.data, PROFILE_FIELDS.NAME);
+      const lastName = self.extractProfileField(response.data, PROFILE_FIELDS.LAST_NAME);
+      const email = self.extractProfileField(response.data, PROFILE_FIELDS.EMAIL);
+      const picture = self.extractProfileField(response.data, PROFILE_FIELDS.PICTURE);
       const profile = { name, lastName, email, picture };
       self.setState({
         step3: {
@@ -149,7 +152,7 @@ class App extends React.Component {
     const { step1, step2, step3 } = { ...this.state };
     return (
       <div className="baeldung-container">
-        <Step0 providers={Object.keys(CONFIGS)} nextStepStarted={step1.started} nextStepFn={this.executeStep1CreateCodes} />
+        <Step0 providers={Object.keys(PROVIDER_CONFIGS)} nextStepStarted={step1.started} nextStepFn={this.executeStep1CreateCodes} />
         {step1.started && <Step1 {...step1} nextStepStarted={step2.started} nextStepFn={this.executeStep2RequestCode} />}
         {step2.started && <Step2 {...step2} nextStepStarted={step3.started} nextStepFn={this.executeStep3RequestResource} />}
         {step3.started && <Step3 {...step3} />}

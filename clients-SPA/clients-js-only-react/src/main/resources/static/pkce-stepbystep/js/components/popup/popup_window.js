@@ -32,26 +32,28 @@ class PopupWindow extends React.Component {
   }
 
   requestAccessTokenFn = () => {
-    const { tokenUrl, redirectUri, clientId, audience } = CONFIGS[this.state.provider];
-    const tokenRequestUrl = 'https://' + tokenUrl;
+    const { TOKEN_URI,
+      CLIENT_ID,
+      CONFIGURED_REDIRECT_URIS: { STEP_BY_STEP: redirectUri },
+      AUDIENCE } = PROVIDER_CONFIGS[this.state.provider];
     const tokenRequestBody = {
       grant_type: 'authorization_code',
       redirect_uri: redirectUri,
       code: this.props.authCode,
       code_verifier: this.state.codeVerifier,
-      client_id: clientId
+      client_id: CLIENT_ID
     }
-    if (audience) tokenRequestBody.audience = audience;
+    if (AUDIENCE) tokenRequestBody.audience = AUDIENCE;
     var headers = {
       'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8'
     }
-    console.log("Making POST request to URL [" + tokenRequestUrl + "] with Headers:");
+    console.log("Making POST request to URL [" + TOKEN_URI + "] with Headers:");
     console.log(headers);
     console.log("and body:");
     console.log(tokenRequestBody);
     console.log("=========================");
     var self = this;
-    axios.post(tokenRequestUrl, new URLSearchParams(tokenRequestBody), { headers })
+    axios.post(TOKEN_URI, new URLSearchParams(tokenRequestBody), { headers })
       .then(function (response) {
         console.log("Retrieved response with data:")
         console.log(response.data);

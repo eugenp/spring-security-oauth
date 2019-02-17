@@ -41,15 +41,20 @@ class App extends React.Component {
   }
 
   authorizeApplication = () => {
-    const authorizationUrl = 'https://bael-jsonly-pkce.auth0.com/authorize'
-      + '?client_id=R7L3XpkJrwcGEkuxrUdSpGAA9NgX9ouQ'
+    const { AUTH_URL,
+      CLIENT_ID,
+      CONFIGURED_REDIRECT_URIS: { SIMPLE: redirectUri },
+      SCOPES,
+      AUDIENCE } = PROVIDER_CONFIGS.AUTH0;
+    const authorizationUrl = AUTH_URL
+      + '?client_id=' + CLIENT_ID
       + "&response_type=code"
-      + '&scope=openid profile'
-      + '&redirect_uri=http://localhost:8080/pkce-simple/callback.html'
+      + '&scope=' + SCOPES
+      + '&redirect_uri=' + redirectUri
       + '&state=' + this.state.state
       + '&code_challenge_method=S256'
       + '&code_challenge=' + this.state.codeChallenge
-      + '&audience=https://bael-jsonly-pkce.auth0.com/api/v2/';
+      + (AUDIENCE ? ('&audience=' + AUDIENCE) : '');
     var popup = window.open(authorizationUrl, 'external_auth_page', 'width=800,height=600');
     window.addEventListener('message', this.onPopupResponseFn, false);
     this.setState({
@@ -78,7 +83,7 @@ class App extends React.Component {
   }
 
   requestResource = () => {
-    const profileInfoUrl = 'https://bael-jsonly-pkce.auth0.com/userinfo';
+    const profileInfoUrl = PROVIDER_CONFIGS.AUTH0.PROFILE_URL;
     const headers = { headers: { Authorization: 'Bearer ' + this.state.accessToken } };
     var self = this;
     axios.get(profileInfoUrl, headers).then(function (response) {

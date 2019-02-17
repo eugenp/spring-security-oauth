@@ -14,14 +14,18 @@ class Listing extends React.Component {
 
   refreshListing = () => {
     var self = this;
-    axios.get(CONFIGS.resourceServer.getColorsUrl).then(function (response) {
+    axios.get(RESOURCE_CONFIGS.GET_COLORS_URL).then(function (response) {
       self.setState({
         listing: response.data,
         loading: false
       })
     }).catch(function (error) {
       console.error(error);
-      window.alert("Error retrieving Colors. Please make sure the resource server is accessible." + error);
+      const alertMessage = `Error retrieving colors. Please make sure:
+        • the resource server is accessible\n
+
+      ${error}`;
+      window.alert(alertMessage);
     })
     this.setState({
       loading: true
@@ -29,12 +33,25 @@ class Listing extends React.Component {
   }
 
   onDeleteFn = (id) => {
+    const headers = this.props.auth
+      ? {
+        headers: {
+          'Authorization': 'Bearer ' + this.props.auth.access_token
+        }
+      }
+      : {};
     var self = this;
-    axios.delete(CONFIGS.resourceServer.deleteColorUrl.replace("{id}", id)).then(function () {
+    axios.delete(RESOURCE_CONFIGS.DELETE_COLOR_URL.replace("{id}", id), headers).then(function () {
       self.refreshListing()
     }).catch(function (error) {
       console.error(error);
-      window.alert("Error deleting Color. Please make sure the resource server is accessible and application has been granted permissions with the proper scopes." + error);
+      const alertMessage = `Error deleting color. Please make sure:
+        • the resource server is accessible
+        • you're logged
+        • you have the 'colors:delete' scope checked on the Profile page
+        
+      ${error}`;
+      window.alert(alertMessage);
     })
   }
 
@@ -48,11 +65,17 @@ class Listing extends React.Component {
         }
       }
       : { headers: { 'Content-type': 'text/plain; charset=UTF-8' } };
-    axios.post(CONFIGS.resourceServer.saveColorUrl, this.state.currentColor, headers).then(function () {
+    axios.post(RESOURCE_CONFIGS.SAVE_COLOR_URL, this.state.currentColor, headers).then(function () {
       self.refreshListing()
     }).catch(function (error) {
       console.error(error);
-      window.alert("Error creating Color. Please make sure the resource server is accessible and application has been granted permissions with the proper scopes." + error);
+      const alertMessage = `Error creating color. Please make sure:
+          • the resource server is accessible
+          • you're logged
+          • you have the 'colors:create' scope checked on the Profile page
+          
+        ${error}`;
+      window.alert(alertMessage);
     })
   }
 
@@ -68,7 +91,7 @@ class Listing extends React.Component {
             <div className="listing">
               {!this.state.loading
                 ? this.state.listing.map((element) => (
-                  <ListingItem key={element.id} value={element.value} onDeleteFn={this.onDeleteFn} />
+                  <ListingItem key={element.id} value={element.value} onDeleteFn={this.onDeleteFn.bind(this, element.id)} />
                 ))
                 : <Spinner />
               }

@@ -11,8 +11,8 @@
 
     <!-- Import the React, React-Dom and Babel libraries -->
     <!-- Note: Here we are using React's unminified-development version -->
-    <script src="https://fb.me/react-0.14.3.js"></script>
-    <script src="https://fb.me/react-dom-0.14.3.js"></script>
+    <script src="https://unpkg.com/react@16/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js" crossorigin></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 
     <!-- Axios to make requests easily -->
@@ -24,16 +24,17 @@
 
   <body>
     <div id="root"></div>
-    <script type="text/javascript" src="/pkce-realcase/js/configs.js"></script>
+    <script type="text/javascript" src="/pkce-realcase/js/resource_configs.js"></script>
+    <script type="text/javascript" src="/common/js/provider_configs.js"></script>
     <script type="text/javascript" src="/common/js/common_functions.js"></script>
     <script type="text/javascript" src="/common/js/code_verifier_functions.js"></script>
     <script type="text/javascript" src="/common/js/code_challenge_functions.js"></script>
-    <script type="text/babel" src="/common/js/components/Spinner.js"></script>
-    <script type="text/babel" src="/pkce-realcase/js/components/navbar/Navbar.js"></script>
-    <script type="text/babel" src="/pkce-realcase/js/components/pages/Listing.js"></script>
-    <script type="text/babel" src="/pkce-realcase/js/components/pages/ListingItem.js"></script>
-    <script type="text/babel" src="/pkce-realcase/js/components/pages/Profile.js"></script>
-    <script type="text/babel" src="/pkce-realcase/js/components/App.js"></script>
+    <script type="text/babel" src="/common/js/components/spinner.js"></script>
+    <script type="text/babel" src="/pkce-realcase/js/components/navbar/navbar.js"></script>
+    <script type="text/babel" src="/pkce-realcase/js/components/pages/listing.js"></script>
+    <script type="text/babel" src="/pkce-realcase/js/components/pages/listing_item.js"></script>
+    <script type="text/babel" src="/pkce-realcase/js/components/pages/profile.js"></script>
+    <script type="text/babel" src="/pkce-realcase/js/components/app.js"></script>
 
     <script type="text/babel">
       // main rendering:

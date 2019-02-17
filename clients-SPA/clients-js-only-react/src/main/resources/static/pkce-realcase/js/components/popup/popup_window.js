@@ -6,9 +6,10 @@ class PopupWindow extends React.Component {
       window.addEventListener('message', this.onMainWindowMessageFn, false);
       const authCodeStatus = {
         state: this.props.state,
-        type: 'authCode'
+        type: 'authCode',
+        source: this.props.typeOfWindow
       }
-      window.opener ? window.opener.postMessage(authCodeStatus, "*") : window.alert("This is not a popup window!");
+      this.props.parentWindow ? this.props.parentWindow.postMessage(authCodeStatus, "*") : window.alert("This is not a popup or iframe window!");
     }
     else {
       window.alert("Error: " + this.props.error);
@@ -18,27 +19,32 @@ class PopupWindow extends React.Component {
   onMainWindowMessageFn = (e) => {
     const { codeVerifier } = e.data;
     if (!codeVerifier) { return };
-    const { tokenUrl, redirectUri, clientId, audience } = CONFIGS.AUTH0;
-    const tokenRequestUrl = 'https://' + tokenUrl;
+    const { TOKEN_URI,
+      CLIENT_ID,
+      CONFIGURED_REDIRECT_URIS: { REAL_CASE: redirectUri },
+      AUDIENCE } = PROVIDER_CONFIGS.AUTH0;
+    const tokenRequestUrl = TOKEN_URI;
     const tokenRequestBody = {
       grant_type: 'authorization_code',
       redirect_uri: redirectUri,
       code: this.props.authCode,
       code_verifier: codeVerifier,
-      client_id: clientId
+      client_id: CLIENT_ID
     }
-    if (audience) tokenRequestBody.audience = audience;
+    if (AUDIENCE) tokenRequestBody.audience = AUDIENCE;
     var headers = {
       'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8'
     }
+    var self = this;
     axios.post(tokenRequestUrl, new URLSearchParams(tokenRequestBody), { headers })
       .then(function (response) {
         const auth = response.data;
         const tokenStatus = {
           type: 'accessToken',
-          auth
+          auth,
+          source: self.props.typeOfWindow
         }
-        window.opener ? window.opener.postMessage(tokenStatus, "*") : window.alert("This is not a popup window!");
+        self.props.parentWindow ? self.props.parentWindow.postMessage(tokenStatus, "*") : window.alert("This is not a popup or iframe window!");
         window.close();
       })
       .catch(function (error) {

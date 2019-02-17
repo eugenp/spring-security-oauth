@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.baeldung.resourceserverauth0.dao.ColorRepository;
 import com.baeldung.resourceserverauth0.model.Color;
 
-@CrossOrigin(origins = "http://localhost:8080")
+@CrossOrigin(origins = "http://localhost:8080", allowedHeaders = "Authorization")
 @RestController
 @RequestMapping("/colors")
 public class ColorsRestController {
@@ -27,7 +27,7 @@ public class ColorsRestController {
     @Autowired
     ColorRepository repository;
 
-    @GetMapping("/list")
+    @GetMapping
     public List<Color> retrieveNonSecuredResource() {
         List<Color> colors = new ArrayList<>();
         repository.findAll()
@@ -35,14 +35,13 @@ public class ColorsRestController {
         return colors;
     }
 
-    @CrossOrigin(methods = RequestMethod.POST, allowedHeaders = "Authorization")
-    @PostMapping("/create")
+    @PostMapping
     @ResponseStatus(code = HttpStatus.CREATED)
     public void retrieveSecuredResource(@RequestBody String color) {
         repository.save(new Color(color));
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/{id}")
     public void retrieveNonAccessibledResource(@PathVariable("id") Long id) {
         repository.deleteById(id);
     }

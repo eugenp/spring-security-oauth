@@ -1,0 +1,61 @@
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: 'Kalam', cursive;
+}
+
+.landing-page-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.header-container {
+  flex: 4 1 0;
+  background-color: #323232;
+  color: white;
+  text-align: center;
+  padding: 3em;
+}
+
+.header-container .description {
+  font-size: 1.2em;
+}
+
+.examples-container {
+  flex: 1 1 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+
+.examples-container a {
+  flex: 1 1 0;
+  text-decoration: none;
+  display: flex;
+}
+
+.example {
+  background-color: #63b175;
+  border: solid #323232;
+  margin: 30px;
+  padding: 1.5em;
+  text-align: center;
+}
+
+.example:hover {
+  box-shadow: 0 0 40px black;
+}
+
+.example .title {
+  color: white;
+}
+
+.example .description {
+  color: #525e74;
+  font-size: 1.3em;
+}

@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <script src="https://fb.me/react-0.14.3.js"></script>
-    <script src="https://fb.me/react-dom-0.14.3.js"></script>
+    <script src="https://unpkg.com/react@16/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js" crossorigin></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
   </head>
@@ -11,7 +11,8 @@
       <div id="root"></div>
     
       <!-- Other components and Js files goes here -->
-      <script type="text/babel" src="/pkce-simple/js/components/App.js"></script>
+      <script type="text/javascript" src="/common/js/provider_configs.js"></script>
+      <script type="text/babel" src="/pkce-simple/js/components/app.js"></script>
     
       <script type="text/babel">
         const rootElement = document.getElementById('root');

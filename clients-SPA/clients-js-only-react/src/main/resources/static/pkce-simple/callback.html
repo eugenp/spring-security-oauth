@@ -6,6 +6,7 @@
   </head>
 
   <body>
+    <script type="text/javascript" src="/common/js/provider_configs.js"></script>
     <script type="text/javascript">
       const urlParams = new URLSearchParams(window.location.search);
       const authCode = urlParams.get('code');
@@ -19,19 +20,22 @@
 
       const onMainWindowMessageFn = (e) => {
         if (!e.data.codeVerifier) { return };
-        const tokenRequestUrl = 'https://bael-jsonly-pkce.auth0.com/oauth/token';
+        const { TOKEN_URI,
+          CLIENT_ID,
+          CONFIGURED_REDIRECT_URIS: { SIMPLE: redirectUri },
+          AUDIENCE } = PROVIDER_CONFIGS.AUTH0;
         const tokenRequestBody = {
           grant_type: 'authorization_code',
-          redirect_uri: 'http://localhost:8080/pkce-simple/callback.html',
+          redirect_uri: redirectUri,
           code: authCode,
           code_verifier: e.data.codeVerifier,
-          client_id: 'R7L3XpkJrwcGEkuxrUdSpGAA9NgX9ouQ',
-          audience: 'https://bael-jsonly-pkce.auth0.com/api/v2/'
+          client_id: CLIENT_ID,
+          audience: AUDIENCE
         }
         var headers = {
           'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8'
         }
-        axios.post(tokenRequestUrl, new URLSearchParams(tokenRequestBody), { headers })
+        axios.post(TOKEN_URI, new URLSearchParams(tokenRequestBody), { headers })
           .then((response) => {
             const accessToken = response.data.access_token;
             const tokenMessage = {
@@ -41,7 +45,7 @@
             window.opener.postMessage(tokenMessage, "*");
             window.close();
           }
-        );
+          );
       }
       window.addEventListener('message', onMainWindowMessageFn, false);
     </script>

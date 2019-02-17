@@ -11,8 +11,8 @@
 
     <!-- Import the React, React-Dom and Babel libraries -->
     <!-- Note: Here we are using React's unminified-development version -->
-    <script src="https://fb.me/react-0.14.3.js"></script>
-    <script src="https://fb.me/react-dom-0.14.3.js"></script>
+    <script src="https://unpkg.com/react@16/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js" crossorigin></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 
     <!-- Axios to make requests easily -->
@@ -22,16 +22,16 @@
   <body>
     
     <div id="root"></div>
-    <script type="text/javascript" src="/pkce-stepbystep/js/configs.js"></script>
+    <script type="text/javascript" src="/common/js/provider_configs.js"></script>
     <script type="text/javascript" src="/common/js/common_functions.js"></script>
     <script type="text/javascript" src="/common/js/code_verifier_functions.js"></script>
     <script type="text/javascript" src="/common/js/code_challenge_functions.js"></script>
-    <script type="text/babel" src="/common/js/components/Spinner.js"></script>
-    <script type="text/babel" src="/pkce-stepbystep/js/components/steps/Step0.js"></script>
-    <script type="text/babel" src="/pkce-stepbystep/js/components/steps/Step1.js"></script>
-    <script type="text/babel" src="/pkce-stepbystep/js/components/steps/Step2.js"></script>
-    <script type="text/babel" src="/pkce-stepbystep/js/components/steps/Step3.js"></script>
-    <script type="text/babel" src="/pkce-stepbystep/js/components/App.js"></script>
+    <script type="text/babel" src="/common/js/components/spinner.js"></script>
+    <script type="text/babel" src="/pkce-stepbystep/js/components/steps/step0.js"></script>
+    <script type="text/babel" src="/pkce-stepbystep/js/components/steps/step1.js"></script>
+    <script type="text/babel" src="/pkce-stepbystep/js/components/steps/step2.js"></script>
+    <script type="text/babel" src="/pkce-stepbystep/js/components/steps/step3.js"></script>
+    <script type="text/babel" src="/pkce-stepbystep/js/components/app.js"></script>
 
     <script type="text/babel">
       // main rendering:
