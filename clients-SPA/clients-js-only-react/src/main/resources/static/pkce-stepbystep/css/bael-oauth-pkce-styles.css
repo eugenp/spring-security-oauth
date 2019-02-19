@@ -4,6 +4,11 @@
   box-sizing: border-box;
 }
 
+body {
+  margin: 0;
+  font-family: 'Raleway', sans-serif;
+}
+
 .baeldung-container,
 .popup-container {
   text-align: center;
