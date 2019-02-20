@@ -77,7 +77,7 @@ The *SPA/clients-js-only-react* project includes a very simple Spring Boot Appli
 It includes two pages:
   * a 'Step-By-Step' guide, where we analyze explicitly each step that we need to carry out to obtain an access token and request a secured resource
   * a 'Real Case' scenario, where we can log in, and obtain or use secured endpoints (provided by the Auth server and by a Custom server we set up)
-  * a 'Simple' Page, with the exact same code that is shown in the related article
+  * the Article's Example Page, with the exact same code that is shown in the related article
 
 The Step-By-Step guide supports using different providers (Authorization Servers) by just adding (or uncommenting) the corresponding entries in the static/*spa*/js/configs.js.
 
