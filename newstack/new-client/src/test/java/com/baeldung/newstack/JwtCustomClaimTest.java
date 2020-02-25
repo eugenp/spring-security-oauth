@@ -8,7 +8,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.reactive.server.WebTestClient;
@@ -21,7 +20,7 @@ import org.springframework.util.MultiValueMap;
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class JwtClaimValidatorTest {
+public class JwtCustomClaimTest {
 
     @Autowired
     private WebTestClient webTestClient;
@@ -29,6 +28,9 @@ public class JwtClaimValidatorTest {
     private static final String CLIENT_ID = "newClient";
     private static final String CLIENT_SECRET = "newClientSecret";
     private static final String CONTENT_TYPE = "application/json;charset=UTF-8";
+
+    private static final String TOKEN_URL = "http://localhost:8083/auth/realms/baeldung/protocol/openid-connect/token";
+    private static final String RESOURCE_URL = "http://localhost:8081/new-resource-server/api/projects";
 
     private static final String EMAIL_VALID = "john@baeldung.com";
     private static final String EMAIL_NOT_VALID = "john@test.com";
@@ -44,7 +46,7 @@ public class JwtClaimValidatorTest {
         params.add("password", password);
 
         final Response response = RestAssured.given().auth().preemptive().basic(CLIENT_ID, CLIENT_SECRET)
-                .with().params(params).when().post("http://localhost:8083/auth/realms/baeldung/protocol/openid-connect/token");
+                .with().params(params).when().post(TOKEN_URL);
 
         return response.jsonPath().getString("access_token");
 
@@ -54,7 +56,7 @@ public class JwtClaimValidatorTest {
     public void givenBaeldungUser_whenGetSecureRequest_thenOk() throws Exception {
         final String accessToken = obtainAccessToken(EMAIL_VALID, "123");
         this.webTestClient.get()
-                .uri("http://localhost:8081/new-resource-server/api/projects/")
+                .uri(RESOURCE_URL)
                 .header("Authorization", "Bearer " + accessToken)
                 .exchange()
                 .expectStatus().isOk()
@@ -65,14 +67,10 @@ public class JwtClaimValidatorTest {
     public void givenNotBaeldungUser_whenGetSecureRequest_thenNotOk() throws Exception {
         final String accessToken = obtainAccessToken(EMAIL_NOT_VALID, "123");
         this.webTestClient.get()
-                .uri("http://localhost:8081/new-resource-server/api/projects/")
+                .uri(RESOURCE_URL)
                 .header("Authorization", "Bearer " + accessToken)
                 .exchange()
                 .expectStatus().isUnauthorized();
-    }
-
-    @SpringBootApplication(scanBasePackageClasses = {AuthorizationServerApplication.class })
-    public static class ClientAndAuthorizationServerApplication {
     }
 
 }
