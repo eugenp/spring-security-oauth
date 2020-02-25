@@ -11,7 +11,7 @@ public class OauthValidationTest {
     private static final String CLIENT_ID = "newClient";
     private static final String SECRET = "newClientSecret";
     private static final String AUTH_TOKEN_URL = "http://localhost:8083/auth/realms/baeldung/protocol/openid-connect/token";
-    private static final String RESOURCE_URL = "http://localhost:8082/new-client/projects";
+    private static final String RESOURCE_URL = "http://localhost:8081/new-resource-server/api/projects";
 
     @Test
     public void givenValidUsername_ExpectValidResponse() {
@@ -34,7 +34,7 @@ public class OauthValidationTest {
         String accessToken = getToken("john@test.com","123");
 
         //Act & Assert
-        given().auth()
+        given().log().all().auth()
                 .oauth2(accessToken)
                 .when()
                 .get(RESOURCE_URL)
