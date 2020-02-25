@@ -317,6 +317,28 @@
     "notBefore" : 0,
     "groups" : [ ]
   }, {
+    "id" : "b5461470-44eb-4b2d-92d4-b0484e96ad8f",
+    "createdTimestamp" : 1574174706812,
+    "username" : "john@baeldung.com",
+    "enabled" : true,
+    "totp" : false,
+    "emailVerified" : false,
+    "credentials" : [ {
+      "id" : "034b62f1-3bf0-49fc-a15f-e843b72e008f",
+      "type" : "password",
+      "createdDate" : 1574174719522,
+      "secretData" : "{\"value\":\"tfHk9estQfa27osLCY2QelpkL6Sm6rPS+iQ33ytPSD4p10Fk7ophI7ChERAnzDjVSmvdsZAttsg2Yr+8F4Gzfw==\",\"salt\":\"goh99WgI7T1ZuGdrKzNAeQ==\"}",
+      "credentialData" : "{\"hashIterations\":27500,\"algorithm\":\"pbkdf2-sha256\"}"
+    } ],
+    "disableableCredentialTypes" : [ ],
+    "requiredActions" : [ ],
+    "realmRoles" : [ "offline_access", "uma_authorization" ],
+    "clientRoles" : {
+      "account" : [ "manage-account", "view-profile" ]
+    },
+    "notBefore" : 0,
+    "groups" : [ ]
+  }, {
     "id" : "22a4d9fe-194c-4c6e-841a-8a55b402459f",
     "createdTimestamp" : 1580237252522,
     "username" : "mike@other.com",
