@@ -5,22 +5,22 @@ import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
- 
+
 export class Foo {
   constructor(
     public id: number,
     public name: string) { }
-} 
+}
 
 @Injectable()
 export class AppService {
   constructor(
     private _router: Router, private _http: Http){}
- 
+
   obtainAccessToken(loginData){
     let params = new URLSearchParams();
     params.append('username',loginData.username);
-    params.append('password',loginData.password);    
+    params.append('password',loginData.password);
     params.append('grant_type','password');
     params.append('client_id','fooClientIdPassword');
 
@@ -32,7 +32,7 @@ export class AppService {
     .subscribe(
       data => this.saveToken(data),
       err => alert('Invalid Credentials')
-    ); 
+    );
   }
 
 
@@ -55,7 +55,7 @@ export class AppService {
     if (!Cookie.check('access_token')){
         this._router.navigate(['/login']);
     }
-  } 
+  }
 
   logout() {
     Cookie.delete('access_token');
