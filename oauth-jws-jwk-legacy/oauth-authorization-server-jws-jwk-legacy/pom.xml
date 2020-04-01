@@ -58,7 +58,7 @@
     </build>
 
     <properties>
-        <nimbus-jose-jwt.version>7.3</nimbus-jose-jwt.version>
+        <nimbus-jose-jwt.version>7.9</nimbus-jose-jwt.version>
     </properties>
 
 </project>
